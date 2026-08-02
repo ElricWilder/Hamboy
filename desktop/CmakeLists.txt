@@ -1,0 +1,16 @@
+project(desktop)
+
+add_executable(gameboyemulauncher
+    src/main.cpp
+                )
+
+target_link_libraries(gameboyemulauncher 
+    PRIVATE 
+        core
+        SDL2::SDL2
+        SDL2::SDL2main
+    )
+
+target_include_directories(gameboyemulauncher PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
