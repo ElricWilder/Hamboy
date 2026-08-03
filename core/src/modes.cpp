@@ -8,14 +8,18 @@ LcdResults Lcd::step(uint8_t cyclesPassed) {
 
 	switch (mode) {
 	case LcdModeType::HBLANK:
-		if (cycles >= HBLANK_LEN) {
-			cycles -= HBLANK_LEN;
-			line++;
-			//std::cout << "line count is: " << int(line) << "\n";
 
-			if (line == VBLANK_LINE_START) {
+		while (cycles >= 456) {
+			cycles -= 456;
+			line++;
+
+			if (line == 144) {
 				mode = LcdModeType::VBLANK;
 				result = LcdResults::RenderFrame;
+			}
+			else if (line > 153) {
+				line = 0;
+				mode = LcdModeType::OAMReadMode;
 			}
 			else {
 				mode = LcdModeType::OAMReadMode;
@@ -37,14 +41,12 @@ LcdResults Lcd::step(uint8_t cyclesPassed) {
 
 	case LcdModeType::OAMReadMode:
 		if (cycles >= OAM_READ_LEN) {
-			cycles -= OAM_READ_LEN;
 			mode = LcdModeType::VRAMReadMode;
 		}
 		break;
 
 	case LcdModeType::VRAMReadMode:
 		if (cycles >= VRAM_READ_LEN) {
-			cycles -= VRAM_READ_LEN;
 			mode = LcdModeType::HBLANK;
 			result = LcdResults::RenderLine;
 		}

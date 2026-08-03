@@ -65,9 +65,9 @@ void IO::writeU8(uint16_t addr, uint8_t val) {
 		faceSelected = !get_bit8(FACE_SELECT_BIT, val);
 		dpadSelected = !get_bit8(DPAD_SELECT_BIT, val);
 	}
-	else if (addr == 0xFF01) {
-		std::cout << val << "\n";
-	}
+	//else if (addr == 0xFF01) {
+	//	std::cout << val << "\n";
+	//}
 	else if (addr == 0xFF0F) {
 		ram[addr - IO_START] |= (val & 0x1F);
 	}

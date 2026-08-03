@@ -31,6 +31,7 @@ struct Cpu {
 	bool irq_enabled;
 	bool irq_enabled_scheduled;
 	bool halted;
+	bool haltBug;
 	const uint16_t IF = 0xFF0F;
 	const uint16_t IE = 0xFFFF;
 	uint16_t totalCycles;

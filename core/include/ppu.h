@@ -73,6 +73,16 @@ struct PpuUpdateResult {
 	bool vblankIrq;
 };
 
+struct Pixel {
+	uint8_t color;
+	bool bgPriority;
+};
+
+struct SpriteEntry {
+	Sprite spr;
+	int oamIndex;
+};
+
 struct Ppu {
 	std::array<uint8_t, DISPLAY_BUFFER> screenBuffer = {};
 	Lcd mode;
@@ -80,6 +90,8 @@ struct Ppu {
 	uint8_t maps[TILE_MAP_SIZE] = {};
 	uint8_t lcdRegs[LCD_REG_SIZE] = {};
 	Sprite oam[NUM_OAM_SPRITES] = {};
+	std::array<uint8_t, SCREEN_WIDTH> bgColorIndexLine = {};
+	uint8_t windowLineCounter;
 
 	Ppu();
 
@@ -115,7 +127,7 @@ struct Ppu {
 	bool canWriteVRAM() const;
 
 	void renderSprites(std::array<uint8_t, SCREEN_WIDTH * 4>& buffer, uint8_t line);
-	std::vector<Sprite> sortSprites() const;
+	std::vector<SpriteEntry> getSpritesForLine(uint8_t line) const;
 
 	void renderScanline();
 	void dumpFramebuffer();

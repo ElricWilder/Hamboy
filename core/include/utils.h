@@ -14,10 +14,10 @@ static constexpr std::array<std::array<uint8_t, 4>, 4> GB_PALETTE = { {
 } };
 
 struct Point {
-	uint8_t x;
-	uint8_t y;
+	size_t x;
+	size_t y;
 
-	Point(uint8_t x, uint8_t y)
+	Point(size_t x, size_t y)
 		: x(x), y(y) {}
 };
 

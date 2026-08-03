@@ -1933,7 +1933,7 @@ uint8_t Cpu::ret_D8() {
 uint8_t Cpu::reti_D9() {
 	uint16_t addr = pop();
 	setPC(addr);
-	set_irq(true);
+	set_irq_scheduled(true);
 	return 4;
 }
 
@@ -2026,20 +2026,23 @@ uint8_t Cpu::rst_E7() {
 
 // ADD SP,i8
 uint8_t Cpu::add_E8() {
-	uint16_t val = int8_t(fetch8());
+	uint8_t imm = int8_t(fetch8());
 	uint16_t sp = get_r16(Regs16::SP);
 
-	uint32_t sum = uint32_t(sp) + int32_t(val);
-	uint16_t result = uint16_t(sum & 0xFFFF);
+	uint8_t lowSP = sp & 0xFF;
+	uint8_t imm8 = uint8_t(imm);
 
-	bool checkH = check_h_carry_u8(sp, val);
-	bool checkC = check_c_carry_u8(sp, val);
+	bool halfCarry = ((lowSP & 0xF) + (imm8 & 0xF)) > 0xF;
+	bool carry = (lowSP + imm8) > 0xFF;
 
-	set_r16(Regs16::SP, result);
+	uint16_t result = sp + imm;
+
 	setFlag(Flags::Z, false);
 	setFlag(Flags::N, false);
-	setFlag(Flags::H, checkH);
-	setFlag(Flags::C, checkC);
+	setFlag(Flags::H, halfCarry);
+	setFlag(Flags::C, carry);
+
+	set_r16(Regs16::SP, result);
 	return 4;
 }
 

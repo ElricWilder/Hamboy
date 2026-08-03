@@ -55,7 +55,7 @@ bool Sprite::getBgPriority() const {
 Point Sprite::getCoords() const{
 	signed int x = coords.x - X_OFFSET;
 	signed int y = coords.y - Y_OFFSET;
-	Point coords = { uint8_t(x), uint8_t(y) };
+	Point coords = { size_t(x), size_t(y) };
 	return coords;
 }
 

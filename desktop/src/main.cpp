@@ -13,12 +13,12 @@
 #include <iterator>
 #include <fstream>
 #include <iostream>
+#include <thread>
 
-int main(int argc, char* argv[]) {
-    initLogger();
+int main(int argc, char** argv) {
+    //initLogger();
+    using clock = std::chrono::high_resolution_clock;
 
-    std::string romPath = "C:/Users/elric/source/repos/gameboyemu/roms/dmg-acid2.gb";
-    //std::cout << "Trying to load ROM from: " << std::filesystem::absolute(romPath) << "\n";
     bool running = true;
     SDL_Event event;
 
@@ -69,15 +69,15 @@ int main(int argc, char* argv[]) {
         throw std::runtime_error(SDL_GetError());
     }
 
-    std::vector<uint8_t> rom = loadROM(romPath);
-    //std::cout << "ROM size = " << rom.size() << " bytes\n";
+    std::vector<uint8_t> rom = loadROM(argv[1]);
+    std::cout << "ROM size = " << rom.size() << " bytes\n";
     Cpu* hamboy = new Cpu();
     hamboy->loadROM(rom);
     std::string title = hamboy->getTitle();
     SDL_SetWindowTitle(window, title.c_str());
     Uint32 fmt;
     SDL_QueryTexture(texture, &fmt, nullptr, nullptr, nullptr);
-    SDL_Log("Texture format: %s", SDL_GetPixelFormatName(fmt));
+
     // Main loop
     while (running) {
         while (SDL_PollEvent(&event)) {
@@ -103,11 +103,28 @@ int main(int argc, char* argv[]) {
             }
         }
 
-        // CPU tick until time to draw
+         // CPU tick until time to draw
          while (!hamboy->tick()) {};
-        // Frame buffer contains RGBA vals for for each of the 160x144 pixels
-        std::array<uint8_t, DISPLAY_BUFFER> frame = hamboy->render();
-        drawScreen(frame, renderer, texture);
+
+         // Frame timing
+         auto lastFrameTime = clock::now();
+         const double targetMs = 1000.0 / 59.7275;
+         auto now = clock::now();
+         double elapsedMs =
+             std::chrono::duration<double, std::milli>(now - lastFrameTime).count();
+
+         if (elapsedMs < targetMs) {
+             auto sleepMs = targetMs - elapsedMs;
+             std::this_thread::sleep_for(
+                 std::chrono::duration<double, std::milli>(sleepMs));
+             now = clock::now();
+         }
+
+         lastFrameTime += std::chrono::duration_cast<std::chrono::high_resolution_clock::duration>(std::chrono::duration<double, std::milli>(targetMs));
+
+         // Frame buffer contains RGBA vals for for each of the 160x144 pixels
+         std::array<uint8_t, DISPLAY_BUFFER> frame = hamboy->render();
+         drawScreen(frame, renderer, texture);
     }
 
     // Clean up

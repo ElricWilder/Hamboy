@@ -169,16 +169,11 @@ uint16_t Cpu::fetch16() {
 }
 
 uint8_t Cpu::readRAM(uint16_t addr) const {
-	// std::cout << "pc is: " << std::hex<< (int)pc << "\n";
 	uint8_t val = bus.readRAM(addr);
-	// std::cout << "val is: " << std::hex << int(val) << "\n";
 	return val;
 }
 
 void Cpu::writeRAM(uint16_t addr, uint8_t val) {
-	if (addr == 0xFF43) {
-		printf("SCX WRITE: %02X (PC=%04X)\n", val, pc);
-	}
 	bus.writeRAM(addr, val);
 }
 
@@ -194,8 +189,6 @@ uint8_t Cpu::execute() {
 
 bool Cpu::tick() {
 	bool drawTime = false;
-
-	//printf("PC=%04X IME=%d HALT=%d\n", pc, irq_enabled, halted);
 
 	if (irq_enabled_scheduled) {
 		irq_enabled = true;
