@@ -6,6 +6,7 @@ Hamboy is a GameBoy (DMG) emulator written in C++ and running on SDL2. Hamboy is
 * Basic PPU rendering
 * Swappable Memory Banks
 * SDL2 keyboard input
+* Real Time Clock
 
 ## Future Updates
 * Audio implementation
