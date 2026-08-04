@@ -24,7 +24,9 @@ Included in the ZIP:
 * README.txt
 
 ## Screenshots
-
+![Tetris Screenshot](./assets/screenshots/tetris.png)\
+![SML Screenshot](./assets/screenshots/supermarioland.png)\
+![Dr Mario Screenshot](./assets/screenshots/drmario.png)\
 
 ## Building From Source
 # Requirements:
