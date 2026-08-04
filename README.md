@@ -1,5 +1,5 @@
 ## Hamboy
-Hamboy is a GameBoy (DMG) emulator written in C++ and running on SDL2. Hamboy is still under development.
+Hamboy is a Game Boy (DMG) emulator written in C++ and running on SDL2. Hamboy is still under development.
 
 ## Current Features
 * LR35902 CPU Implementation
@@ -61,7 +61,7 @@ out/build/x64-Release/Hamboy.exe
 ```
 
 ## Why I chose This Project
-I chose to build a GameBoy emulator as a way to learn more about emulation concepts while building programming skills, especially in C++. 
+I chose to build a Game Boy emulator as a way to learn more about emulation concepts while building programming skills, especially in C++. 
 I previously completed a <a href="https://github.com/ElricWilder/CHIP-8-Emulator" target="_blank" rel="noopener noreferrer">CHIP-8 emulator</a>.
 
 ## Resources I Used
