@@ -1,0 +1,84 @@
+# ============================
+# Build Artifacts
+# ============================
+/build/
+/cmake-build-*/
+/CMakeFiles/
+/CMakeCache.txt
+/install_manifest.txt
+/Testing/
+/CTestTestfile.cmake
+/Makefile
+
+# Ninja
+/.ninja_deps
+/.ninja_log
+
+# ============================
+# Compiled Binaries
+# ============================
+*.exe
+*.dll
+*.so
+*.dylib
+*.lib
+*.a
+*.o
+*.obj
+*.pdb
+
+# ============================
+# IDE / Editor Files
+# ============================
+
+# Visual Studio
+.vs/
+*.vcxproj*
+*.sln
+*.user
+*.filters
+
+# CLion / JetBrains
+.idea/
+*.iml
+
+# VSCode
+.vscode/
+*.code-workspace
+
+# ============================
+# OS-specific junk
+# ============================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+
+# Linux
+*~
+
+# ============================
+# Logs / Temp / Cache
+# ============================
+*.log
+*.tmp
+*.cache
+
+# ============================
+# SDL2 Runtime (for releases)
+# ============================
+# (You will include SDL2.dll in GitHub Releases, not in the repo)
+SDL2.dll
+
+# ============================
+# Release Packaging
+# ============================
+/dist/
+/release/
+/bin/
+/out/
