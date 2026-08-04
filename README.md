@@ -3,20 +3,20 @@ Hamboy is a GameBoy (DMG) emulator written in C++ and running on SDL2. Hamboy is
 
 ## Current Features
 * LR35902 CPU Implementation
-* PPU
+* Basic PPU rendering
 * Swappable Memory Banks
 * SDL2 keyboard input
 
 ## Future Updates
 * Audio implementation
 * Configurable key mapping
-* Configurable screen size/resolution
-* Loading ROMs via UI
+* Configurable screen size / scaling
+* ROM loading through a UI instead of command line
 * Save states
 * Battery saves
 
 ## Download (Windows)
-Download the latest release build:
+Grab the latest release here:
 https://github.com/ElricWilder/Hamboy/releases/tag/v0.5
 Included in the ZIP:
 * Hamboy.exe (Release build)
@@ -24,19 +24,22 @@ Included in the ZIP:
 * README.txt
 
 ## Screenshots
-![Tetris Screenshot](./assets/screenshots/tetris.png)\
-![SML Screenshot](./assets/screenshots/supermarioland.png)\
-![Dr Mario Screenshot](./assets/screenshots/drmario.png)\
+<img src="./assets/screenshots/tetris.png" width="300">
+
+<img src="./assets/screenshots/supermarioland.png" width="300">
+
+<img src="./assets/screenshots/drmario.png" width="300">
 
 ## Building From Source
-# Requirements:
+
+Requirements:
 * C++20 compiler
 * CMake 3.20+
 * Ninja (recommended)
 * SDL2 (via vcpkg)
 
-# Windows (Visual Studio + vcpkg)
-Install SDL2: \
+Windows (Visual Studio + vcpkg)
+Install SDL2: 
 ```
 vcpkg install sdl2:x64-windows
 vcpkg install sdl2:x64-windows-release
@@ -55,4 +58,31 @@ Executable will appear in:
 ```
 out/build/x64-Release/Hamboy.exe
 ```
+
+## Why I chose This Project
+I chose to build a GameBoy emulator as a way to learn more about emulation concepts while building programming skills, especially in C++. 
+I previously completed a <a href="https://github.com/ElricWilder/CHIP-8-Emulator" target="_blank" rel="noopener noreferrer">CHIP-8 emulator</a>.
+
+## Resources I Used
+
+- **Pan Docs**  
+  https://gbdev.io/pandocs/
+
+- **izik1 Opcode Table**  
+  https://izik1.github.io/gbops/
+
+- **aquova's gb-book Project**  
+  https://github.com/aquova/gb-book/tree/master
+
+- **GB: Complete Technical Reference**  
+  https://github.com/Gekkio/gb-ctr
+
+- **Gameboy Doctor**  
+  https://github.com/robert/gameboy-doctor
+
+- **Blargg's Test ROMs**  
+  https://github.com/retrio/gb-test-roms
+
+- **Mooneye Test Suite**  
+  https://github.com/Gekkio/mooneye-test-suite/
 
