@@ -63,6 +63,7 @@ struct Cart {
 	uint8_t ramBank;
 	bool romMode;
 	bool ramEnabled;
+	int lastLatchValue = 0;
 
 	// constructor
 	Cart();

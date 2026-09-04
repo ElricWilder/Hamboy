@@ -69,7 +69,7 @@ int main(int argc, char** argv) {
         throw std::runtime_error(SDL_GetError());
     }
 
-    std::vector<uint8_t> rom = loadROM(argv[1]);
+    std::vector<uint8_t> rom = loadROM("C:\\Users\\elric\\source\\repos\\gameboyemu\\roms\\super mario land.GB");
     std::cout << "ROM size = " << rom.size() << " bytes\n";
     Cpu* hamboy = new Cpu();
     hamboy->loadROM(rom);
@@ -77,6 +77,8 @@ int main(int argc, char** argv) {
     SDL_SetWindowTitle(window, title.c_str());
     Uint32 fmt;
     SDL_QueryTexture(texture, &fmt, nullptr, nullptr, nullptr);
+
+    auto lastFrameTime = clock::now();
 
     // Main loop
     while (running) {
@@ -107,7 +109,7 @@ int main(int argc, char** argv) {
          while (!hamboy->tick()) {};
 
          // Frame timing
-         auto lastFrameTime = clock::now();
+
          const double targetMs = 1000.0 / 59.7275;
          auto now = clock::now();
          double elapsedMs =

@@ -28,7 +28,7 @@ uint8_t Cart::readCart(uint16_t addr) const {
 	}
 	else {
 		uint16_t relativeAddr = addr - ROM_BANK_SIZE;
-		uint16_t bankAddr = romBank * ROM_BANK_SIZE + relativeAddr;
+		size_t bankAddr = size_t(romBank) * ROM_BANK_SIZE + relativeAddr;
 		return rom[bankAddr];
 	}
 }
@@ -127,10 +127,10 @@ uint8_t Cart::readRam(uint16_t addr) const {
 	}
 
 	if (mbc == MBC::NONE || mbc == MBC::MBC1 || mbc == MBC::MBC2 || mbc == MBC::MBC5) {
-		readRamHelper(addr);
+		return readRamHelper(addr);
 	}
 	else if (mbc == MBC::MBC3) {
-		mbc3ReadRam(addr);
+		return mbc3ReadRam(addr);
 	}
 	else {
 		return 0;
@@ -183,7 +183,7 @@ void Cart::mbc1WriteRom(uint16_t addr, uint8_t val) {
 			romBank = bank;
 		}
 	}
-	else if (addr >= RAM_BANK_NUM_START && RAM_BANK_NUM_STOP) {
+	else if (addr >= RAM_BANK_NUM_START && addr <= RAM_BANK_NUM_STOP) {
 		uint16_t bits = (val & 0b11);
 
 		if (romMode) {
@@ -235,11 +235,15 @@ void Cart::mbc3WriteRom(uint16_t addr, uint8_t val) {
 			romBank = val;
 		}
 	}
-	else if (addr >= RAM_BANK_NUM_START && RAM_BANK_NUM_STOP) {
+	else if (addr >= RAM_BANK_NUM_START && addr <= RAM_BANK_NUM_STOP) {
 		ramBank = val;
 	}
 	else if (addr >= ROM_RAM_MODE_START && addr <= ROM_RAM_MODE_STOP) {
-		rtc.writeByte(ramBank, val);
+		 // rtc.writeByte(ramBank, val);
+		if (lastLatchValue == 0 && val == 1) {
+			rtc.latchTime();
+		}
+		lastLatchValue = val;
 	}
 	else {
 		return;

@@ -1,5 +1,6 @@
 #include "timer.h"
 #include "utils.h"
+#include <iostream>
 
 Timer::Timer()
 	: counter(0),
@@ -31,7 +32,6 @@ uint8_t Timer::readTimer(uint16_t addr) const{
 void Timer::writeTimer(uint16_t addr, uint8_t val) {
 	if (addr == DIV) {
 		div = 0;
-		counter = 0;
 	}
 	else if (addr == TIMA) {
 		tima = val;
@@ -49,19 +49,18 @@ bool Timer::tick(uint8_t mCycles) {
 	bool interrupt = false;
 	uint8_t tCycles = 4 * mCycles;
 
-	for (uint8_t i = 0; i < tCycles; i++) {
-		uint16_t oldDiv16 = (uint16_t(div) << 8) | counter;
-		bool oldBit = (oldDiv16 & getTimaPeriod()) != 0;
-
+	for (int i = 0; i < tCycles; i++) {
+		uint16_t oldCounter = counter;
 		counter += 1;
-
-		if (counter == 0) {
-			div++;
+		bool overflow = (counter < oldCounter);
+		if (!overflow) {
+			continue;
 		}
 
-		uint16_t newDiv16 = (uint16_t(div) << 8) | counter;
-		bool newBit = (newDiv16 & getTimaPeriod()) != 0;
+		bool oldBit = timaStatus();
+		div += 1;
 
+		bool newBit = timaStatus();
 		bool enabled = get_bit8(TAC_ENABLE_BIT, tac);
 
 		if (timaCooldown != 0) {
@@ -70,10 +69,7 @@ bool Timer::tick(uint8_t mCycles) {
 				tima = tma;
 				interrupt = true;
 			}
-			continue;
-		}
-
-		if (enabled && oldBit && !newBit) {
+		} else if (enabled && oldBit && !newBit) {
 			uint8_t oldTima = tima;
 			tima += 1;
 			bool timaOverflow = (tima < oldTima);
@@ -85,6 +81,7 @@ bool Timer::tick(uint8_t mCycles) {
 	}
 
 	return interrupt;	
+
 }
 
 uint16_t Timer::getTimaPeriod() {
