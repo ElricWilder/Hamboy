@@ -1,6 +1,13 @@
 ## Hamboy
 Hamboy is a Game Boy (DMG) emulator written in C++ and running on SDL2. Hamboy is still under development.
 
+## Latest Update - 0.51
+* Fixed issue with jittery horizontal scrolling
+* Fixed issue with internal timer breaking some game features
+* Fixed issue with MBC3 support
+* Fixed issue with RTC
+* Fixed issue with framerate not correctly targeting 60 FPS
+
 ## Current Features
 * LR35902 CPU Implementation
 * Basic PPU rendering
@@ -18,7 +25,7 @@ Hamboy is a Game Boy (DMG) emulator written in C++ and running on SDL2. Hamboy i
 
 ## Download (Windows)
 Grab the latest release here:
-https://github.com/ElricWilder/Hamboy/releases/tag/v0.5
+https://github.com/ElricWilder/Hamboy/releases/tag/v0.51
 Included in the ZIP:
 * Hamboy.exe (Release build)
 * SDL2.dll
