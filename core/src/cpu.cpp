@@ -204,6 +204,7 @@ bool Cpu::tick() {
 	}
 
 	uint8_t cycles = halted ? 1 : execute();
+	totalCycles += cycles;
 
 	auto ppuResult = bus.updatePPU(cycles);
 
@@ -234,7 +235,10 @@ bool Cpu::tick() {
 			triggerIrq(*irq);
 		}
 	}
-
+	/*if (drawTime) {
+		std::cout << "Cycles this frame: " << totalCycles << "\n";
+		totalCycles = 0;
+	}*/
 	return drawTime;
 }
 

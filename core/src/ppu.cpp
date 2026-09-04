@@ -246,15 +246,16 @@ void Ppu::renderBg(std::array<uint8_t, SCREEN_WIDTH * 4>& buffer, uint8_t line) 
 
 	size_t currentY = size_t(viewport.y) + line;
 	size_t y = currentY % MAP_PIXELS;
-	size_t tileRow = (y / TILESIZE);
-	size_t rowInTile = (y % TILESIZE);
+	size_t tileRow = y / TILESIZE;
+	size_t row = y % TILESIZE;
 
 	size_t mapOffset = getBgTileMapIndex() * TILE_MAP_TABLE_SIZE;
 
-	for (size_t px = 0; px < SCREEN_WIDTH; ) {
+	for (size_t px = 0; px < SCREEN_WIDTH; px++) {
 		size_t currentX = size_t(viewport.x) + px;
 		size_t x = currentX % MAP_PIXELS;
-		size_t tileCol = (x / TILESIZE);
+		size_t tileCol = x / TILESIZE;
+		size_t col = x % TILESIZE;
 
 		size_t mapNum = tileRow * LAYERSIZE + tileCol;
 		uint8_t rawTileIndex = maps[mapOffset + mapNum];
@@ -263,34 +264,24 @@ void Ppu::renderBg(std::array<uint8_t, SCREEN_WIDTH * 4>& buffer, uint8_t line) 
 		int8_t signedIndex = static_cast<int8_t>(rawTileIndex);
 
 		if (getBgWndwTileSetIndex() == 1) {
-			tileIndex = rawTileIndex; // unsigned
+			tileIndex = rawTileIndex;
 		}
 		else {
-			tileIndex = 256 + signedIndex; // signed
+			tileIndex = 256 + signedIndex;
 		}
 
 		const Tile& tile = tiles[tileIndex];
-		auto rowData = tile.getRow(rowInTile);
+		auto rowData = tile.getRow(row);
 
-		for (int i = 0; i < 8; ++i) {
-			size_t screenX = px + i;
-			if (screenX >= SCREEN_WIDTH) {
-				break;
-			}
+		uint8_t cell = rowData[col];
+		uint8_t colorIdx = palette[cell];
+		const auto& color = GB_PALETTE[colorIdx];
 
-			uint8_t cell = rowData[i];
-			bgColorIndexLine[screenX] = cell;
-			uint8_t colorIdx = palette[cell];
-			const auto& color = GB_PALETTE[colorIdx];
-
-			size_t base = screenX * 4;
-
-			buffer[base + 0] = color[0];
-			buffer[base + 1] = color[1];
-			buffer[base + 2] = color[2];
-			buffer[base + 3] = color[3];
-		}
-		px += TILESIZE;
+		size_t base = px * 4;
+		buffer[base + 0] = color[0];
+		buffer[base + 1] = color[1];
+		buffer[base + 2] = color[2];
+		buffer[base + 3] = color[3];
 	}
 }
 
