@@ -1,5 +1,4 @@
 #pragma once
-
 #include <vector>
 #include <cstdint>
 #include <iterator>
@@ -7,8 +6,10 @@
 #include <stdexcept>
 #include <SDL.h>
 #include <optional>
+#include "utils.h"
+#include <windows.h>
 
-static const uint32_t SCALE = 3;
+static const uint32_t SCALE = 4;
 static const uint32_t WINDOW_WIDTH = SCREEN_WIDTH * SCALE;
 static const uint32_t WINDOW_HEIGHT = SCREEN_HEIGHT * SCALE;
 
@@ -28,8 +29,7 @@ void drawScreen(std::array<uint8_t, DISPLAY_BUFFER>& data,
                 SDL_Renderer* renderer,
                 SDL_Texture* texture) {
 
-    SDL_UpdateTexture(texture, nullptr, data.data(), SCREEN_WIDTH * 4);
-
+    SDL_UpdateTexture(texture, nullptr, data.data(), WINDOW_WIDTH);
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, texture, nullptr, nullptr);
     SDL_RenderPresent(renderer);
@@ -56,4 +56,24 @@ std::optional<Buttons> key2btn(SDL_Keycode key) {
         default:
             return std::nullopt;
         }
+}
+
+std::string open_rom_dialog() {
+    OPENFILENAMEA ofn;
+    CHAR fileName[MAX_PATH] = { 0 };
+
+    ZeroMemory(&ofn, sizeof(ofn));
+    ofn.lStructSize = sizeof(ofn);
+    ofn.hwndOwner = nullptr; // or your SDL window handle
+    ofn.lpstrFilter = "Game Boy ROMs (*.gb;*.gbc)\0*.gb;*.gbc\0All Files (*.*)\0*.*\0";
+    ofn.lpstrFile = fileName;
+    ofn.nMaxFile = MAX_PATH;
+    ofn.Flags = OFN_EXPLORER | OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST;
+    ofn.lpstrDefExt = "gb";
+
+    if (GetOpenFileNameA(&ofn)) {
+        return std::string(fileName);
+    }
+
+    return "";
 }

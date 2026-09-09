@@ -2,9 +2,9 @@
 #include <cstdint>
 #include <array>
 
-const uint32_t SCREEN_WIDTH = 160;
-const uint32_t SCREEN_HEIGHT = 144;
-const uint32_t DISPLAY_BUFFER = SCREEN_WIDTH * SCREEN_HEIGHT * 4;
+static const uint32_t SCREEN_WIDTH = 160;
+static const uint32_t SCREEN_HEIGHT = 144;
+static const uint32_t DISPLAY_BUFFER = SCREEN_WIDTH * SCREEN_HEIGHT * 4;
 
 static constexpr std::array<std::array<uint8_t, 4>, 4> GB_PALETTE = { {
 	{{255, 255, 255, 255}},

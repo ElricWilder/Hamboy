@@ -1,5 +1,6 @@
 #include <cstdint>
 #include "utils.h"
+#include <windows.h>
 
 
 // Helper function to combine two bytes
@@ -98,3 +99,4 @@ uint8_t pack_u8(std::array<uint8_t, 4>& a) {
 	output |= a[3] << 6;
 	return output;
 }
+
