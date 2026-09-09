@@ -68,11 +68,11 @@ out/build/x64-Release/Hamboy.exe
 This project uses the following open-source libraries:
 
 - **Dear ImGui** — MIT License  
-  Copyright (c) 2014-2024 Omar Cornut  
+  Copyright (c) 2014-2026 Omar Cornut  
   https://github.com/ocornut/imgui
 
 - **SDL2** — zlib License  
-  Copyright (C) 1997-2024 Sam Lantinga  
+  Copyright (C) 1997-2026 Sam Lantinga  
   https://github.com/libsdl-org/SDL
 
 ## Why I chose This Project
