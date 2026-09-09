@@ -13,4 +13,6 @@ add_library(core
     src/rtc.cpp 
     src/logger.cpp)
 
-target_include_directories(core PUBLIC include)
+target_include_directories(core PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+)

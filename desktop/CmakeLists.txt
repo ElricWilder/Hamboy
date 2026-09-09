@@ -1,16 +1,30 @@
 project(desktop)
 
+find_package(SDL2 REQUIRED)
+
 add_executable(Hamboy
     src/main.cpp
-                )
 
-target_link_libraries(Hamboy 
-    PRIVATE 
+    # ImGui core
+    ../external/imgui/imgui.cpp
+    ../external/imgui/imgui_draw.cpp
+    ../external/imgui/imgui_tables.cpp
+    ../external/imgui/imgui_widgets.cpp
+
+    # ImGui backends
+    ../external/imgui/imgui_impl_sdl2.cpp
+    ../external/imgui/imgui_impl_sdlrenderer2.cpp
+)
+
+target_link_libraries(Hamboy PUBLIC 
         core
         SDL2::SDL2
         SDL2::SDL2main
-    )
+        imgui::imgui
+)
 
 target_include_directories(Hamboy PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/include
+    ../external/imgui
 )
+
